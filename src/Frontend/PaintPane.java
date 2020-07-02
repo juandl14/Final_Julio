@@ -28,6 +28,7 @@ public class PaintPane extends BorderPane {
 	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
 	ToggleButton circleButton = new ToggleButton("Círculo");
 	ToggleButton squareButton = new ToggleButton("Cuadrado");
+	ToggleButton lineButton = new ToggleButton("Linea");
 
 	// Dibujar una figura
 	Point startPoint;
@@ -41,7 +42,7 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton};
+		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, lineButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -74,6 +75,8 @@ public class PaintPane extends BorderPane {
 				newFigure = new Circle(startPoint, circleRadius);
 			} else if(squareButton.isSelected()) {
 				newFigure = new Square(startPoint, endPoint);
+			}else if(lineButton.isSelected()){
+				newFigure = new Line(startPoint,endPoint);
 			} else {
 				return ;
 			}
@@ -134,6 +137,12 @@ public class PaintPane extends BorderPane {
 					Circle circle = (Circle) selectedFigure;
 					circle.getCenterPoint().x += diffX;
 					circle.getCenterPoint().y += diffY;
+				} else if (selectedFigure instanceof Line){
+					Line line = (Line) selectedFigure;
+					line.getBottom().x += diffX ;
+					line.getTop().x += diffX ;
+					line.getBottom().y += diffY ;
+					line.getTop().y += diffY ;
 				}
 				redrawCanvas();
 			}
@@ -162,6 +171,9 @@ public class PaintPane extends BorderPane {
 				double diameter = circle.getRadius() * 2;
 				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
 				gc.strokeOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
+			} else if (figure instanceof Line){
+				Line line =  (Line) figure ;
+				gc.strokeRect(line.getTop().getX() , line.getTop().getY(), Math.abs(line.getTop().getX() - line.getBottom().getX()), 1);
 			}
 		}
 	}
