@@ -1,10 +1,7 @@
 package Frontend;
 
 import Backend.CanvasState;
-import Backend.Model.Circle;
-import Backend.Model.Figure;
-import Backend.Model.Point;
-import Backend.Model.Rectangle;
+import Backend.Model.*;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
@@ -30,6 +27,7 @@ public class PaintPane extends BorderPane {
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
 	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
 	ToggleButton circleButton = new ToggleButton("Círculo");
+	ToggleButton ellipseButton = new ToggleButton("Ellipse");
 
 	// Dibujar una figura
 	Point startPoint;
@@ -43,7 +41,7 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton};
+		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -53,7 +51,7 @@ public class PaintPane extends BorderPane {
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.getChildren().addAll(toolsArr);
 		buttonsBox.setPadding(new Insets(5));
-		buttonsBox.setStyle("-fx-background-color: #999");
+		buttonsBox.setStyle("-fx-background-color: #999999");
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
 		canvas.setOnMousePressed(event -> {
@@ -130,11 +128,12 @@ public class PaintPane extends BorderPane {
 					rectangle.getBottomRight().x += diffX;
 					rectangle.getTopLeft().y += diffY;
 					rectangle.getBottomRight().y += diffY;
-				} else if(selectedFigure instanceof Circle) {
+				}else if(selectedFigure instanceof Circle) {
 					Circle circle = (Circle) selectedFigure;
 					circle.getCenterPoint().x += diffX;
 					circle.getCenterPoint().y += diffY;
 				}
+
 				redrawCanvas();
 			}
 		});
