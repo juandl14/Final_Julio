@@ -1,10 +1,7 @@
 package Frontend;
 
 import Backend.CanvasState;
-import Backend.Model.Circle;
-import Backend.Model.Figure;
-import Backend.Model.Point;
-import Backend.Model.Rectangle;
+import Backend.Model.*;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
@@ -30,6 +27,7 @@ public class PaintPane extends BorderPane {
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
 	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
 	ToggleButton circleButton = new ToggleButton("Círculo");
+	ToggleButton squareButton = new ToggleButton("Cuadrado");
 
 	// Dibujar una figura
 	Point startPoint;
@@ -43,7 +41,7 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton};
+		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -74,6 +72,8 @@ public class PaintPane extends BorderPane {
 			else if(circleButton.isSelected()) {
 				double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
 				newFigure = new Circle(startPoint, circleRadius);
+			} else if(squareButton.isSelected()) {
+				newFigure = new Square(startPoint, endPoint);
 			} else {
 				return ;
 			}
