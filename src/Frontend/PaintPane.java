@@ -167,12 +167,12 @@ public class PaintPane extends BorderPane {
 						rectangle.getWidth(), rectangle.getHeight());
 			}else if(figure instanceof Circle) {
 				Circle circle = (Circle) figure;
-				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), circle.getRadius()*2, circle.getRadius()*2);
-				gc.strokeOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), circle.getRadius()*2, circle.getRadius()*2);
+				gc.fillOval(circle.getTopLeft().getX(), circle.getTopLeft().getY(), circle.getRadius(), circle.getRadius());
+				gc.strokeOval(circle.getTopLeft().getX(), circle.getTopLeft().getY(),  circle.getRadius(), circle.getRadius());
 			}else if(figure instanceof Ellipse) {
 				Ellipse ellipse = (Ellipse) figure;
-				gc.fillOval(ellipse.getCenterPoint().getX() - ellipse.getxAxis(), ellipse.getCenterPoint().getY() - ellipse.getyAxis(), ellipse.getxAxis()*2, ellipse.getyAxis()*2);
-				gc.strokeOval(ellipse.getCenterPoint().getX() - ellipse.getxAxis(), ellipse.getCenterPoint().getY() - ellipse.getyAxis(), ellipse.getxAxis()*2, ellipse.getyAxis()*2);
+				gc.fillOval(ellipse.getTopLeft().getX(), ellipse.getTopLeft().getY(), ellipse.getxAxis(), ellipse.getyAxis());
+				gc.strokeOval(ellipse.getTopLeft().getX(), ellipse.getTopLeft().getY(), ellipse.getxAxis(), ellipse.getyAxis());
 			}else if (figure instanceof Line){
 				Line line =  (Line) figure ;
 				gc.strokeRect(line.getTop().getX() , line.getTop().getY(), Math.abs(line.getTop().getX() - line.getBottom().getX()), 1);
