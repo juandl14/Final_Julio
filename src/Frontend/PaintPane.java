@@ -27,7 +27,7 @@ public class PaintPane extends BorderPane {
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
 	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
 	ToggleButton circleButton = new ToggleButton("Círculo");
-	ToggleButton ellipseButton = new ToggleButton("Ellipse");
+	ToggleButton ellipseButton = new ToggleButton("Elipse");
 	ToggleButton squareButton = new ToggleButton("Cuadrado");
 	ToggleButton lineButton = new ToggleButton("Linea");
 
@@ -55,8 +55,7 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999999");
 		buttonsBox.setPrefWidth(100);
-
-		gc.setLineWidth(1);
+		gc.setLineWidth(1); // cambia el ancho del contorno de las figuras
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
 		});
@@ -79,8 +78,10 @@ public class PaintPane extends BorderPane {
 				newFigure = new Ellipse(startPoint, endPoint);
 			} else if(squareButton.isSelected()) {
 				newFigure = new Square(startPoint, endPoint);
-			}else if(lineButton.isSelected()){
-				newFigure = new Line(startPoint,endPoint);
+			}else if(lineButton.isSelected()) {
+				newFigure = new Line(startPoint, endPoint);
+			} else if (ellipseButton.isSelected()) {
+				//
 			} else {
 				return ;
 			}
