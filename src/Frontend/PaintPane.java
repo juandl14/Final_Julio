@@ -151,6 +151,27 @@ public class PaintPane extends BorderPane {
 			redrawCanvas();
 		});
 
+		strokeColorPicker.setOnAction(click -> {
+			if (selectedFigure != null){
+				selectedFigure.setStrokeColor(strokeColorPicker.getValue());
+			}
+			redrawCanvas();
+		});
+
+		fillColorPicker.setOnAction(click -> {
+			if (selectedFigure != null){
+				selectedFigure.setFillColor(fillColorPicker.getValue());
+			}
+			redrawCanvas();
+		});
+
+		strokeSlider.setOnMouseDragged(slide -> {
+			if (selectedFigure != null){
+				selectedFigure.setStrokeBorder(strokeSlider.getValue());
+			}
+			redrawCanvas();
+		});
+
 		canvas.setOnMouseDragged(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
