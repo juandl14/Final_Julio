@@ -19,8 +19,6 @@ public class PaintPane extends BorderPane {
 	// Canvas y relacionados
 	Canvas canvas = new Canvas(800, 600);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
-	Color lineColor = Color.BLACK;
-	Color fillColor = Color.YELLOW;
 
 	// Botones Barra Izquierda
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
@@ -30,11 +28,11 @@ public class PaintPane extends BorderPane {
 	ToggleButton squareButton = new ToggleButton("Cuadrado");
 	ToggleButton lineButton = new ToggleButton("Línea");
 	ToggleButton eraseButton = new ToggleButton("Borrar");
-	ColorPicker strokeColorPicker = new ColorPicker();
+	ColorPicker strokeColorPicker = new ColorPicker(Color.BLACK);
 	Slider strokeSlider = new Slider(1,50,1);
 	Label strokeLabel = new Label("Borde");
 	Label fillLabel = new Label("Relleno");
-	ColorPicker fillColorPicker = new ColorPicker();
+	ColorPicker fillColorPicker = new ColorPicker(Color.YELLOW);
 
 
 	// Dibujar una figura
@@ -69,7 +67,7 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999999");
 		buttonsBox.setPrefWidth(100);
-		gc.setLineWidth(1); // cambia el ancho del contorno de las figuras
+
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
 		});
@@ -80,7 +78,7 @@ public class PaintPane extends BorderPane {
 				return;
 			}
 
-			Figure newFigure = null;
+			Figure newFigure;
 			if (lineButton.isSelected()) {
 				newFigure = new Line(startPoint, endPoint);
 			} else if (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
@@ -98,6 +96,9 @@ public class PaintPane extends BorderPane {
 			} else {
 				return ;
 			}
+			newFigure.setStrokeBorder(strokeSlider.getValue());
+			newFigure.setStrokeColor(strokeColorPicker.getValue());
+			newFigure.setFillColor(fillColorPicker.getValue());
 			canvasState.addFigure(newFigure);
 			startPoint = null;
 			redrawCanvas();
@@ -177,9 +178,10 @@ public class PaintPane extends BorderPane {
 			if(figure == selectedFigure) {
 				gc.setStroke(Color.RED);
 			} else {
-				gc.setStroke(lineColor);
+				gc.setStroke(figure.getStrokeColor());
 			}
-			gc.setFill(fillColor);
+			gc.setFill(figure.getFillColor());
+			gc.setLineWidth(figure.getStrokeBorder());
 			if (figure instanceof Rectangle) {
 				Rectangle rectangle = (Rectangle) figure;
 				gc.fillRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),

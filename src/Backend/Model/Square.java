@@ -2,8 +2,8 @@ package Backend.Model;
 
 public class Square extends Rectangle{
 
-    public Square(Point topLeft, Point bottomRight) {
-        super(topLeft, new Point(bottomRight.getX(), topLeft.getY() + Math.abs(bottomRight.getX() - topLeft.getX())));
+    public Square(Point startPoint, Point endPoint) {
+        super(startPoint, new Point(endPoint.getX(), startPoint.getY() + Math.abs(endPoint.getX() - startPoint.getX())));
     }
 
     @Override
