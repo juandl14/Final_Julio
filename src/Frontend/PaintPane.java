@@ -6,8 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,7 +28,13 @@ public class PaintPane extends BorderPane {
 	ToggleButton circleButton = new ToggleButton("Círculo");
 	ToggleButton ellipseButton = new ToggleButton("Elipse");
 	ToggleButton squareButton = new ToggleButton("Cuadrado");
-	ToggleButton lineButton = new ToggleButton("Linea");
+	ToggleButton lineButton = new ToggleButton("Línea");
+	ColorPicker strokeColorPicker = new ColorPicker();
+	Slider strokeSlider = new Slider(1,50,1);
+	Label strokeLabel = new Label("Borde");
+	Label fillLabel = new Label("Relleno");
+	ColorPicker fillColorPicker = new ColorPicker();
+
 
 	// Dibujar una figura
 	Point startPoint;
@@ -52,6 +57,13 @@ public class PaintPane extends BorderPane {
 		}
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.getChildren().addAll(toolsArr);
+		strokeSlider.setShowTickMarks(true);
+		strokeSlider.setShowTickLabels(true);
+		buttonsBox.getChildren().add(strokeLabel);
+		buttonsBox.getChildren().add(strokeSlider) ;
+		buttonsBox.getChildren().add(strokeColorPicker) ;
+		buttonsBox.getChildren().add(fillLabel);
+		buttonsBox.getChildren().add(fillColorPicker) ;
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999999");
 		buttonsBox.setPrefWidth(100);
