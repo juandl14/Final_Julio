@@ -135,9 +135,6 @@ public class PaintPane extends BorderPane {
 				if(selectedFigure instanceof Rectangle) {
 					Rectangle rectangle = (Rectangle) selectedFigure;
 					rectangle.moveFigure(diffX, diffY);
-				} else if(selectedFigure instanceof Circle) {
-					Circle circle = (Circle) selectedFigure;
-					circle.moveFigure(diffX, diffY);
 				} else if(selectedFigure instanceof Ellipse) {
 					Ellipse ellipse = (Ellipse) selectedFigure;
 					ellipse.moveFigure(diffX, diffY);
@@ -167,10 +164,6 @@ public class PaintPane extends BorderPane {
 						rectangle.getWidth(), rectangle.getHeight());
 				gc.strokeRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
 						rectangle.getWidth(), rectangle.getHeight());
-			}else if(figure instanceof Circle) {
-				Circle circle = (Circle) figure;
-				gc.fillOval(circle.getTopLeft().getX(), circle.getTopLeft().getY(), circle.getRadius(), circle.getRadius());
-				gc.strokeOval(circle.getTopLeft().getX(), circle.getTopLeft().getY(),  circle.getRadius(), circle.getRadius());
 			}else if(figure instanceof Ellipse) {
 				Ellipse ellipse = (Ellipse) figure;
 				gc.fillOval(ellipse.getTopLeft().getX(), ellipse.getTopLeft().getY(), ellipse.getxAxis(), ellipse.getyAxis());

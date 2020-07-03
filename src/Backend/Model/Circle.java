@@ -3,7 +3,7 @@ package Backend.Model;
 public class Circle extends Ellipse {
 
     public Circle(Point startPoint, Point endPoint) {
-        super(startPoint, endPoint);
+        super(startPoint, new Point(endPoint.getX(),startPoint.getY() + Math.abs(startPoint.getX() - endPoint.getX())));
     }
 
     public double getRadius() {
