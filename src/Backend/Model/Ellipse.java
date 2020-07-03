@@ -2,37 +2,34 @@ package Backend.Model;
 
 public class Ellipse extends Figure {
 
-    protected Point centerPoint;
-    protected final double MayorAxis, MinorAxis;
+    private Point centerPoint;
+    private final double xAxis, yAxis;
 
-    public Ellipse(Point centerPoint, double MayorAxis, double MinorAxis) {
-        this.centerPoint = centerPoint;
-        this.MayorAxis = MayorAxis;
-        this.MinorAxis = MinorAxis;
+    public Ellipse(Point startPoint, Point endPoint){
+        xAxis = (endPoint.getX() - startPoint.getX())/2;
+        yAxis = (endPoint.getY() - startPoint.getY())/2;
+        centerPoint = new Point(startPoint.getX()+xAxis, startPoint.getY()+yAxis);
     }
 
     public Point getCenterPoint() {
         return centerPoint;
     }
 
-    public double getMayorAxis() {
-        return MayorAxis;
+    public void setCenterPoint(Point centerPoint) {
+        this.centerPoint = centerPoint;
     }
 
-    public double getMinorAxis() {
-        return MinorAxis;
+    public double getxAxis() {
+        return xAxis;
+    }
+
+    public double getyAxis() {
+        return yAxis;
     }
 
     @Override
     public String toString() {
-        return String.format("Elipse [Centro: %s, DMayor: %.2f, DMenor: %.2f]", centerPoint, MayorAxis, MinorAxis);
+        return String.format("Elipse [Centro: %s, Rx: %.2f, Ry: %.2f]", centerPoint, xAxis, yAxis);
     }
-
-//    public double area() {
-//        return Math.PI / 4 * MayorAxis * MinorAxis;
-//    }
-//    public double perimeter() {
-//        return Math.PI / 2 * (MayorAxis + MinorAxis);
-//    }
 
 }

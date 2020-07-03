@@ -55,10 +55,12 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999999");
 		buttonsBox.setPrefWidth(100);
+
 		gc.setLineWidth(1);
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
 		});
+
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
 			if(startPoint == null) {
@@ -68,12 +70,13 @@ public class PaintPane extends BorderPane {
 				return ;
 			}
 			Figure newFigure = null;
+
 			if(rectangleButton.isSelected()) {
 				newFigure = new Rectangle(startPoint, endPoint);
-			}
-			else if(circleButton.isSelected()) {
-				double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
-				newFigure = new Circle(startPoint, circleRadius);
+			}else if(circleButton.isSelected()) {
+				newFigure = new Circle(startPoint, endPoint);
+			}else if(ellipseButton.isSelected()) {
+				newFigure = new Ellipse(startPoint, endPoint);
 			} else if(squareButton.isSelected()) {
 				newFigure = new Square(startPoint, endPoint);
 			}else if(lineButton.isSelected()){
@@ -138,6 +141,10 @@ public class PaintPane extends BorderPane {
 					Circle circle = (Circle) selectedFigure;
 					circle.getCenterPoint().x += diffX;
 					circle.getCenterPoint().y += diffY;
+				}else if(selectedFigure instanceof Ellipse) {
+					Ellipse ellipse = (Ellipse) selectedFigure;
+					ellipse.getCenterPoint().x += diffX;
+					ellipse.getCenterPoint().y += diffY;
 				} else if (selectedFigure instanceof Line){
 					Line line = (Line) selectedFigure;
 					line.getBottom().x += diffX ;
@@ -168,12 +175,15 @@ public class PaintPane extends BorderPane {
 						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()), Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
 				gc.strokeRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
 						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()), Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
-			} else if(figure instanceof Circle) {
+			}else if(figure instanceof Circle) {
 				Circle circle = (Circle) figure;
-				double diameter = circle.getRadius() * 2;
-				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
-				gc.strokeOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), diameter, diameter);
-			} else if (figure instanceof Line){
+				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), circle.getRadius()*2, circle.getRadius()*2);
+				gc.strokeOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), circle.getRadius()*2, circle.getRadius()*2);
+			}else if(figure instanceof Ellipse) {
+				Ellipse ellipse = (Ellipse) figure;
+				gc.fillOval(ellipse.getCenterPoint().getX() - ellipse.getxAxis(), ellipse.getCenterPoint().getY() - ellipse.getyAxis(), ellipse.getxAxis()*2, ellipse.getyAxis()*2);
+				gc.strokeOval(ellipse.getCenterPoint().getX() - ellipse.getxAxis(), ellipse.getCenterPoint().getY() - ellipse.getyAxis(), ellipse.getxAxis()*2, ellipse.getyAxis()*2);
+			}else if (figure instanceof Line){
 				Line line =  (Line) figure ;
 				gc.strokeRect(line.getTop().getX() , line.getTop().getY(), Math.abs(line.getTop().getX() - line.getBottom().getX()), 1);
 			}
@@ -190,6 +200,10 @@ public class PaintPane extends BorderPane {
 			Circle circle = (Circle) figure;
 			found = Math.sqrt(Math.pow(circle.getCenterPoint().getX() - eventPoint.getX(), 2) +
 					Math.pow(circle.getCenterPoint().getY() - eventPoint.getY(), 2)) < circle.getRadius();
+		} else if(figure instanceof Ellipse) {
+			Ellipse ellipse = (Ellipse) figure;
+			found = Math.pow((eventPoint.getX() - ellipse.getCenterPoint().getX())/ellipse.getxAxis(), 2) + Math.pow((eventPoint.getY() - ellipse.getCenterPoint().getY())/ellipse.getyAxis(), 2) <= 1;
+
 		}
 		return found;
 	}
