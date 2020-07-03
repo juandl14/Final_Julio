@@ -176,23 +176,7 @@ public class PaintPane extends BorderPane {
 	}
 
 	boolean figureBelongs(Figure figure, Point eventPoint) {
-//		boolean found = false;
-//		if (figure instanceof Square) {
-//            Square square = (Square) figure;
-//            found = square.belongs(eventPoint);
-//        } else if(figure instanceof Rectangle) {
-//			Rectangle rectangle = (Rectangle) figure;
-//			found = rectangle.belongs(eventPoint);
-//		} else if(figure instanceof Circle) {
-//			Circle circle = (Circle) figure;
-//			found = circle.belongs(eventPoint);
-//		} else if(figure instanceof Ellipse) {
-//			Ellipse ellipse = (Ellipse) figure;
-//			found = ellipse.belongs(eventPoint);
-//
-//		}
 		return figure.belongs(eventPoint);
-//		return found;
 	}
 
 }

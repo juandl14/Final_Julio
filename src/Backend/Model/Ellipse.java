@@ -22,7 +22,7 @@ public class Ellipse extends Figure {
 
     @Override
     public boolean belongs(Point eventPoint) {
-        return Math.pow((eventPoint.getX() - getCenterPoint().getX())/(getyAxis()/2), 2) + Math.pow((eventPoint.getY() - getCenterPoint().getY())/(getyAxis()/2), 2) <= 1;
+        return Math.pow((eventPoint.getX() - getCenterPoint().getX())/(getxAxis()/2), 2) + Math.pow((eventPoint.getY() - getCenterPoint().getY())/(getyAxis()/2), 2) <= 1;
     }
 
     @Override
