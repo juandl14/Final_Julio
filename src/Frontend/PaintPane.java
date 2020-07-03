@@ -29,11 +29,11 @@ public class PaintPane extends BorderPane {
 	ToggleButton ellipseButton = new ToggleButton("Elipse");
 	ToggleButton squareButton = new ToggleButton("Cuadrado");
 	ToggleButton lineButton = new ToggleButton("Línea");
-	ColorPicker strokeColorPicker = new ColorPicker();
+	ColorPicker strokeColorPicker = new ColorPicker(Color.BLACK);
 	Slider strokeSlider = new Slider(1,50,1);
 	Label strokeLabel = new Label("Borde");
 	Label fillLabel = new Label("Relleno");
-	ColorPicker fillColorPicker = new ColorPicker();
+	ColorPicker fillColorPicker = new ColorPicker(Color.YELLOW);
 
 
 	// Dibujar una figura
@@ -96,6 +96,9 @@ public class PaintPane extends BorderPane {
 			} else {
 				return ;
 			}
+			newFigure.setStrokeBorder(strokeSlider.getValue());
+			newFigure.setStrokeColor(strokeColorPicker.getValue());
+			newFigure.setFillColor(fillColorPicker.getValue());
 			canvasState.addFigure(newFigure);
 			startPoint = null;
 			redrawCanvas();
@@ -166,9 +169,10 @@ public class PaintPane extends BorderPane {
 			if(figure == selectedFigure) {
 				gc.setStroke(Color.RED);
 			} else {
-				gc.setStroke(lineColor);
+				gc.setStroke(figure.getStrokeColor());
 			}
-			gc.setFill(fillColor);
+			gc.setFill(figure.getFillColor());
+			gc.setLineWidth(figure.getStrokeBorder());
 			if (figure instanceof Rectangle) {
 				Rectangle rectangle = (Rectangle) figure;
 				gc.fillRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),
