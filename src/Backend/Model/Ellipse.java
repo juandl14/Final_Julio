@@ -2,46 +2,32 @@ package Backend.Model;
 
 public class Ellipse extends Figure {
 
-    private final Point topLeft, bottomRight;
-    private final double xAxis, yAxis;
-
-    public Ellipse(Point topLeft, Point bottomRight){
-        this.topLeft = topLeft;
-        this.bottomRight = bottomRight;
-        xAxis = bottomRight.getX() - topLeft.getX();
-        yAxis = bottomRight.getY() - topLeft.getY();
+    public Ellipse(Point startPoint, Point endPoint) {
+        super(startPoint, endPoint);
     }
 
-    public Point getCenterPoint(){
-        return new Point(topLeft.getX()+(xAxis/2), topLeft.getY()+(yAxis/2) );
+    protected Point getCenterPoint(){
+        return new Point(getStartPoint().getX()+(getxAxis()/2), getStartPoint().getY()+(getyAxis()/2) );
     }
 
-    public Point getTopLeft() {
-        return topLeft;
-    }
 
     public double getxAxis() {
-        return xAxis;
+        return getEndPoint().getX() - getStartPoint().getX();
     }
 
     public double getyAxis() {
-        return yAxis;
+        return getEndPoint().getY() - getStartPoint().getY();
     }
 
-    @Override
-    public void moveFigure(double newX, double newY) {
-        topLeft.plusX(newX);
-        topLeft.plusY(newY);
-    }
 
     @Override
     public boolean belongs(Point eventPoint) {
-        return Math.pow((eventPoint.getX() - getCenterPoint().getX())/(yAxis/2), 2) + Math.pow((eventPoint.getY() - getCenterPoint().getY())/(yAxis/2), 2) <= 1;
+        return Math.pow((eventPoint.getX() - getCenterPoint().getX())/(getyAxis()/2), 2) + Math.pow((eventPoint.getY() - getCenterPoint().getY())/(getyAxis()/2), 2) <= 1;
     }
 
     @Override
     public String toString() {
-        return String.format("Elipse [Centro: %s, Rx: %.2f, Ry: %.2f]", getCenterPoint(), xAxis, yAxis);
+        return String.format("Elipse [Centro: %s, Rx: %.2f, Ry: %.2f]", getCenterPoint(), getxAxis(), getyAxis());
     }
 
 }
