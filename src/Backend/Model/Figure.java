@@ -23,7 +23,7 @@ public abstract class Figure {
     public Point getEndPoint() {
         return endPoint;
     }
-    
+
     public abstract boolean belongs(Point eventPoint);
 
 
