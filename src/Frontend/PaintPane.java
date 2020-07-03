@@ -130,22 +130,19 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-				if (selectedFigure instanceof Square) {
-				    //
-				} else if(selectedFigure instanceof Rectangle) {
+				if(selectedFigure instanceof Rectangle) {
 					Rectangle rectangle = (Rectangle) selectedFigure;
 					rectangle.moveFigure(diffX, diffY);
-				}else if(selectedFigure instanceof Circle) {
+				} else if(selectedFigure instanceof Circle) {
 					Circle circle = (Circle) selectedFigure;
 					circle.moveFigure(diffX, diffY);
-				}else if(selectedFigure instanceof Ellipse) {
+				} else if(selectedFigure instanceof Ellipse) {
 					Ellipse ellipse = (Ellipse) selectedFigure;
 					ellipse.moveFigure(diffX, diffY);
-				} else if (selectedFigure instanceof Line){
+				} else if (selectedFigure instanceof Line) {
 					Line line = (Line) selectedFigure;
 					line.moveFigure(diffX, diffY);
 				}
-
 				redrawCanvas();
 			}
 		});
@@ -162,7 +159,7 @@ public class PaintPane extends BorderPane {
 				gc.setStroke(lineColor);
 			}
 			gc.setFill(fillColor);
-			if(figure instanceof Rectangle) {
+			if (figure instanceof Rectangle) {
 				Rectangle rectangle = (Rectangle) figure;
 				gc.fillRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
 						rectangle.getWidth(), rectangle.getHeight());
