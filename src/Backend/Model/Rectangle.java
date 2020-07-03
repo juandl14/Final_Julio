@@ -18,11 +18,27 @@ public class Rectangle extends Figure {
     }
 
     public double getWidth() {
-        return Math.abs(bottomRight.getX() - topLeft.getX());
+        return Math.abs(topLeft.getX() - bottomRight.getX());
     }
 
     public double getHeight() {
-        return Math.abs(topLeft.getX() - bottomRight.getX());
+        return Math.abs(topLeft.getY() - bottomRight.getY());
+    }
+
+    @Override
+    public void moveFigure(double newX, double newY) {
+        topLeft.plusX(newX);
+        topLeft.plusY(newY);
+        bottomRight.plusX(newX);
+        bottomRight.plusY(newY);
+    }
+
+    @Override
+    public boolean belongs(Point eventPoint) {
+        return eventPoint.getX() > topLeft.getX() &&
+                eventPoint.getX() < bottomRight.getX() &&
+                eventPoint.getY() > topLeft.getY() &&
+                eventPoint.getY() < bottomRight.getY();
     }
 
     @Override

@@ -2,7 +2,7 @@ package Backend.Model;
 
 public class Ellipse extends Figure {
 
-    private Point centerPoint;
+    private final Point centerPoint;
     private final double xAxis, yAxis;
 
     public Ellipse(Point startPoint, Point endPoint){
@@ -15,16 +15,23 @@ public class Ellipse extends Figure {
         return centerPoint;
     }
 
-    public void setCenterPoint(Point centerPoint) {
-        this.centerPoint = centerPoint;
-    }
-
     public double getxAxis() {
         return xAxis;
     }
 
     public double getyAxis() {
         return yAxis;
+    }
+
+    @Override
+    public void moveFigure(double newX, double newY) {
+        centerPoint.plusX(newX);
+        centerPoint.plusY(newY);
+    }
+
+    @Override
+    public boolean belongs(Point eventPoint) {
+        return Math.pow((eventPoint.getX() - centerPoint.getX())/xAxis, 2) + Math.pow((eventPoint.getY() - centerPoint.getY())/yAxis, 2) <= 1;
     }
 
     @Override
