@@ -1,5 +1,7 @@
 package Backend.Model;
 
+import javafx.scene.paint.Color;
+
 public class Circle extends Ellipse {
 
     public Circle(Point startPoint, Point endPoint) {

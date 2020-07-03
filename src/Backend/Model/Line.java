@@ -1,5 +1,7 @@
 package Backend.Model;
 
+import javafx.scene.paint.Color;
+
 public class Line extends Figure {
 
     public Line(Point startPoint, Point endPoint) {

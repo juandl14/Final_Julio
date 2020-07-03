@@ -1,5 +1,7 @@
 package Backend.Model;
 
+import javafx.scene.paint.Color;
+
 public class Rectangle extends Figure {
 
     public Rectangle(Point startPoint, Point endPoint) {
