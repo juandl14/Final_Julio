@@ -80,8 +80,6 @@ public class PaintPane extends BorderPane {
 				newFigure = new Square(startPoint, endPoint);
 			}else if(lineButton.isSelected()) {
 				newFigure = new Line(startPoint, endPoint);
-			} else if (ellipseButton.isSelected()) {
-				//
 			} else {
 				return ;
 			}
@@ -132,26 +130,20 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-				if(selectedFigure instanceof Rectangle) {
+				if (selectedFigure instanceof Square) {
+				    //
+				} else if(selectedFigure instanceof Rectangle) {
 					Rectangle rectangle = (Rectangle) selectedFigure;
-					rectangle.getTopLeft().x += diffX;
-					rectangle.getBottomRight().x += diffX;
-					rectangle.getTopLeft().y += diffY;
-					rectangle.getBottomRight().y += diffY;
+					rectangle.moveFigure(diffX, diffY);
 				}else if(selectedFigure instanceof Circle) {
 					Circle circle = (Circle) selectedFigure;
-					circle.getCenterPoint().x += diffX;
-					circle.getCenterPoint().y += diffY;
+					circle.moveFigure(diffX, diffY);
 				}else if(selectedFigure instanceof Ellipse) {
 					Ellipse ellipse = (Ellipse) selectedFigure;
-					ellipse.getCenterPoint().x += diffX;
-					ellipse.getCenterPoint().y += diffY;
+					ellipse.moveFigure(diffX, diffY);
 				} else if (selectedFigure instanceof Line){
 					Line line = (Line) selectedFigure;
-					line.getBottom().x += diffX ;
-					line.getTop().x += diffX ;
-					line.getBottom().y += diffY ;
-					line.getTop().y += diffY ;
+					line.moveFigure(diffX, diffY);
 				}
 
 				redrawCanvas();
@@ -173,9 +165,9 @@ public class PaintPane extends BorderPane {
 			if(figure instanceof Rectangle) {
 				Rectangle rectangle = (Rectangle) figure;
 				gc.fillRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
-						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()), Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
+						rectangle.getWidth(), rectangle.getHeight());
 				gc.strokeRect(rectangle.getTopLeft().getX(), rectangle.getTopLeft().getY(),
-						Math.abs(rectangle.getTopLeft().getX() - rectangle.getBottomRight().getX()), Math.abs(rectangle.getTopLeft().getY() - rectangle.getBottomRight().getY()));
+						rectangle.getWidth(), rectangle.getHeight());
 			}else if(figure instanceof Circle) {
 				Circle circle = (Circle) figure;
 				gc.fillOval(circle.getCenterPoint().getX() - circle.getRadius(), circle.getCenterPoint().getY() - circle.getRadius(), circle.getRadius()*2, circle.getRadius()*2);
@@ -191,12 +183,15 @@ public class PaintPane extends BorderPane {
 		}
 	}
 
+	// Pasar esto al back
 	boolean figureBelongs(Figure figure, Point eventPoint) {
 		boolean found = false;
-		if(figure instanceof Rectangle) {
+		if (figure instanceof Square) {
+            Square square = (Square) figure;
+            found = square.belongs(eventPoint);
+        } else if(figure instanceof Rectangle) {
 			Rectangle rectangle = (Rectangle) figure;
-			found = eventPoint.getX() > rectangle.getTopLeft().getX() && eventPoint.getX() < rectangle.getBottomRight().getX() &&
-					eventPoint.getY() > rectangle.getTopLeft().getY() && eventPoint.getY() < rectangle.getBottomRight().getY();
+			found = rectangle.belongs(eventPoint);
 		} else if(figure instanceof Circle) {
 			Circle circle = (Circle) figure;
 			found = Math.sqrt(Math.pow(circle.getCenterPoint().getX() - eventPoint.getX(), 2) +
@@ -206,6 +201,7 @@ public class PaintPane extends BorderPane {
 			found = Math.pow((eventPoint.getX() - ellipse.getCenterPoint().getX())/ellipse.getxAxis(), 2) + Math.pow((eventPoint.getY() - ellipse.getCenterPoint().getY())/ellipse.getyAxis(), 2) <= 1;
 
 		}
+		// return figure.belongs(eventPoint);
 		return found;
 	}
 
