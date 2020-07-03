@@ -62,25 +62,24 @@ public class PaintPane extends BorderPane {
 
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
-			if(startPoint == null) {
-				return ;
+			if (startPoint == null) {
+				return;
 			}
 
 			Figure newFigure = null;
-			if(lineButton.isSelected()) {
+			if (lineButton.isSelected()) {
 				newFigure = new Line(startPoint, endPoint);
 			} else if (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
-				return ;
-			}
-			if(rectangleButton.isSelected()) {
+				return;
+			} else if(rectangleButton.isSelected()) {
 				newFigure = new Rectangle(startPoint, endPoint);
-			}else if(circleButton.isSelected()) {
+			} else if(circleButton.isSelected()) {
 				newFigure = new Circle(startPoint, endPoint);
-			}else if(ellipseButton.isSelected()) {
+			} else if(ellipseButton.isSelected()) {
 				newFigure = new Ellipse(startPoint, endPoint);
 			} else if(squareButton.isSelected()) {
 				newFigure = new Square(startPoint, endPoint);
-			}else if(lineButton.isSelected()) {
+			} else if(lineButton.isSelected()) {
 				newFigure = new Line(startPoint, endPoint);
 			} else {
 				return ;

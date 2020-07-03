@@ -1,7 +1,6 @@
 package Backend.Model;
 
-public class Line extends Figure{
-
+public class Line extends Figure {
 
     public Line(Point startPoint, Point endPoint) {
         super(startPoint, endPoint);

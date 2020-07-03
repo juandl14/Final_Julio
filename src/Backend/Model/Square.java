@@ -10,4 +10,5 @@ public class Square extends Rectangle{
     public String toString() {
         return String.format("Cuadrado [ %s , %s ]", getStartPoint(), getEndPoint());
     }
+
 }
