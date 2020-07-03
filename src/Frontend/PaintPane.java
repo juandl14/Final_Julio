@@ -34,7 +34,6 @@ public class PaintPane extends BorderPane {
 	Label fillLabel = new Label("Relleno");
 	ColorPicker fillColorPicker = new ColorPicker(Color.YELLOW);
 
-
 	// Dibujar una figura
 	Point startPoint;
 
@@ -68,9 +67,7 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setStyle("-fx-background-color: #999999");
 		buttonsBox.setPrefWidth(100);
 
-		canvas.setOnMousePressed(event -> {
-			startPoint = new Point(event.getX(), event.getY());
-		});
+		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
@@ -205,11 +202,14 @@ public class PaintPane extends BorderPane {
 						rectangle.getWidth(), rectangle.getHeight());
 			}else if(figure instanceof Ellipse) {
 				Ellipse ellipse = (Ellipse) figure;
-				gc.fillOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(), ellipse.getxAxis(), ellipse.getyAxis());
-				gc.strokeOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(), ellipse.getxAxis(), ellipse.getyAxis());
+				gc.fillOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
+						ellipse.getxAxis(), ellipse.getyAxis());
+				gc.strokeOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
+						ellipse.getxAxis(), ellipse.getyAxis());
 			}else if (figure instanceof Line){
 				Line line =  (Line) figure ;
-				gc.strokeLine(line.getStartPoint().getX() , line.getStartPoint().getY(), line.getEndPoint().getX(), line.getEndPoint().getY());
+				gc.strokeLine(line.getStartPoint().getX(), line.getStartPoint().getY(),
+						line.getEndPoint().getX(), line.getEndPoint().getY());
 			}
 		}
 	}

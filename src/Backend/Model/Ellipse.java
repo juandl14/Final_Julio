@@ -10,7 +10,6 @@ public class Ellipse extends Figure {
         return new Point(getStartPoint().getX()+(getxAxis()/2), getStartPoint().getY()+(getyAxis()/2) );
     }
 
-
     public double getxAxis() {
         return getEndPoint().getX() - getStartPoint().getX();
     }
@@ -18,7 +17,6 @@ public class Ellipse extends Figure {
     public double getyAxis() {
         return getEndPoint().getY() - getStartPoint().getY();
     }
-
 
     @Override
     public boolean belongs(Point eventPoint) {
