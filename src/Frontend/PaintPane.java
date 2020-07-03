@@ -65,11 +65,13 @@ public class PaintPane extends BorderPane {
 			if(startPoint == null) {
 				return ;
 			}
-			if(endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
+
+			Figure newFigure = null;
+			if(lineButton.isSelected()) {
+				newFigure = new Line(startPoint, endPoint);
+			} else if (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
 				return ;
 			}
-			Figure newFigure = null;
-
 			if(rectangleButton.isSelected()) {
 				newFigure = new Rectangle(startPoint, endPoint);
 			}else if(circleButton.isSelected()) {
@@ -175,7 +177,7 @@ public class PaintPane extends BorderPane {
 				gc.strokeOval(ellipse.getTopLeft().getX(), ellipse.getTopLeft().getY(), ellipse.getxAxis(), ellipse.getyAxis());
 			}else if (figure instanceof Line){
 				Line line =  (Line) figure ;
-				gc.strokeRect(line.getTop().getX() , line.getTop().getY(), Math.abs(line.getTop().getX() - line.getBottom().getX()), 1);
+				gc.strokeLine(line.getTop().getX() , line.getTop().getY(), line.getBottom().getX(), line.getBottom().getY());
 			}
 		}
 	}
