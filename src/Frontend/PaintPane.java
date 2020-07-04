@@ -31,6 +31,8 @@ public class PaintPane extends BorderPane {
 	ToggleButton squareButton = new ToggleButton("Cuadrado");
 	ToggleButton lineButton = new ToggleButton("Línea");
 	ToggleButton eraseButton = new ToggleButton("Borrar");
+	ToggleButton toFrontButton = new ToggleButton("Al Frente");
+	ToggleButton toBackButton = new ToggleButton("Al Fondo");
 	ColorPicker strokeColorPicker = new ColorPicker(Color.BLACK);
 	Slider strokeSlider = new Slider(1,50,1);
 	Label strokeLabel = new Label("Borde");
@@ -54,7 +56,7 @@ public class PaintPane extends BorderPane {
 		this.statusPane = statusPane;
 
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton,
-				squareButton, lineButton, eraseButton};
+				squareButton, lineButton, eraseButton, toBackButton, toFrontButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -148,6 +150,18 @@ public class PaintPane extends BorderPane {
 		squareButton.setOnAction(click -> clearSelection());
 
 		lineButton.setOnAction(click -> clearSelection());
+
+		toFrontButton.setOnAction(click -> {
+			if (!selectedFigures.isEmpty())
+				selectedFigures.forEach(canvasState::toFront);
+			redrawCanvas();
+		});
+
+		toBackButton.setOnAction(click -> {
+			if (!selectedFigures.isEmpty())
+				selectedFigures.forEach(canvasState::toBack);
+			redrawCanvas();
+		});
 
 		eraseButton.setOnAction(click -> {
 			if (!selectedFigures.isEmpty()) {

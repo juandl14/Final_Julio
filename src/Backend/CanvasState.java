@@ -12,6 +12,16 @@ public class CanvasState {
         list.add(figure);
     }
 
+    public void toFront(Figure figure){
+        removeFigure(figure);
+        addFigure(figure);
+    }
+
+    public void toBack(Figure figure ){
+        removeFigure(figure);
+        list.add(0,figure);
+    }
+
     public void removeFigure(Figure figure) { list.remove(figure); }
 
     public Iterable<Figure> figures() {
