@@ -56,7 +56,7 @@ public class PaintPane extends BorderPane {
 			tool.setToggleGroup(tools);
 			tool.setCursor(Cursor.HAND);
 		}
-		
+
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.getChildren().addAll(toolsArr);
 		strokeSlider.setShowTickMarks(true);
@@ -109,7 +109,7 @@ public class PaintPane extends BorderPane {
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
 			for(Figure figure : canvasState.figures()) {
-				if(figureBelongs(figure, eventPoint)) {
+				if(figure.belongs(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
 				}
@@ -127,7 +127,7 @@ public class PaintPane extends BorderPane {
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
 				for (Figure figure : canvasState.figures()) {
-					if(figureBelongs(figure, eventPoint)) {
+					if(figure.belongs(eventPoint)) {
 						found = true;
 						selectedFigure = figure;
 						label.append(figure.toString());
@@ -216,10 +216,6 @@ public class PaintPane extends BorderPane {
 						line.getEndPoint().getX(), line.getEndPoint().getY());
 			}
 		}
-	}
-
-	boolean figureBelongs(Figure figure, Point eventPoint) {
-		return figure.belongs(eventPoint);
 	}
 
 }
