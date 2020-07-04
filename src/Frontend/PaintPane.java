@@ -44,8 +44,10 @@ public class PaintPane extends BorderPane {
 	StatusPane statusPane;
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
+
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
+
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton,
 				squareButton, lineButton, eraseButton};
 		ToggleGroup tools = new ToggleGroup();
@@ -54,6 +56,7 @@ public class PaintPane extends BorderPane {
 			tool.setToggleGroup(tools);
 			tool.setCursor(Cursor.HAND);
 		}
+		
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.getChildren().addAll(toolsArr);
 		strokeSlider.setShowTickMarks(true);
@@ -180,6 +183,7 @@ public class PaintPane extends BorderPane {
 				redrawCanvas();
 			}
 		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
