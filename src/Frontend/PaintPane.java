@@ -175,8 +175,8 @@ public class PaintPane extends BorderPane {
 		canvas.setOnMouseDragged(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
-				double diffX = (eventPoint.getX() - startPoint.getX()) / 50;
-				double diffY = (eventPoint.getY() - startPoint.getY()) / 50;
+				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
+				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
 				if(selectedFigure != null){
 					selectedFigure.moveFigure(diffX,diffY);
 				}
