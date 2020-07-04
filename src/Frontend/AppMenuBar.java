@@ -28,7 +28,7 @@ public class AppMenuBar extends MenuBar {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Acerca De");
             alert.setHeaderText("Paint");
-            alert.setContentText("Cátedra POO 2020");
+            alert.setContentText("Cátedra POO 2020\nTrabajo Práctico Final\nCréditos: Cupitó, De Luca, De Schant");
             alert.showAndWait();
         });
         help.getItems().add(aboutMenuItem);

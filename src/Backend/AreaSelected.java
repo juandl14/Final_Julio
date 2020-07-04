@@ -30,8 +30,6 @@ public class AreaSelected {
         }
         if (found) {
             selectedFigures.add(selected);
-        } else {
-            selectedFigures.clear();
         }
     }
 

@@ -1,7 +1,5 @@
 package Backend.Model;
 
-import java.util.Objects;
-
 public class Point {
 
     private double x, y;
