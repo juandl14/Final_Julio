@@ -1,5 +1,6 @@
 package Frontend;
 
+import Backend.AreaSelected;
 import Backend.CanvasState;
 import Backend.Model.*;
 import javafx.geometry.Insets;
@@ -10,9 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PaintPane extends BorderPane {
 
@@ -43,9 +41,7 @@ public class PaintPane extends BorderPane {
 	Point startPoint;
 
 	// Seleccionar una figura
-	List<Figure> selectedFigures = new ArrayList<>();
-	// Area de seleccion
-	Rectangle selectionArea;
+	AreaSelected areaSelected;
 
 	// StatusBar
 	StatusPane statusPane;
@@ -54,6 +50,7 @@ public class PaintPane extends BorderPane {
 
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
+		this.areaSelected = new AreaSelected(new Point(0,0), canvasState.figures());
 
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, ellipseButton,
 				squareButton, lineButton, eraseButton, toBackButton, toFrontButton};
@@ -88,10 +85,12 @@ public class PaintPane extends BorderPane {
 
 			if (selectionButton.isSelected()) {
 				if (!startPoint.equals(endPoint)) {
-					selectionArea = new Rectangle(startPoint, endPoint);
-					areaSelection();
+					areaSelected = new AreaSelected(new Rectangle(startPoint, endPoint), canvasState.figures());
 				} else {
-					pointSelection(startPoint);
+//					if (!areaSelected.isEmpty()) {
+						clearSelection();
+//					}
+					areaSelected =  new AreaSelected(new Point(startPoint.getX(), startPoint.getY()), canvasState.figures());
 				}
 				multipleSelection();
 			} else {
@@ -118,7 +117,6 @@ public class PaintPane extends BorderPane {
 			}
 
 			startPoint = null;
-			selectionArea = null;
 			redrawCanvas();
 		});
 
@@ -152,42 +150,42 @@ public class PaintPane extends BorderPane {
 		lineButton.setOnAction(click -> clearSelection());
 
 		toFrontButton.setOnAction(click -> {
-			if (!selectedFigures.isEmpty())
-				selectedFigures.forEach(canvasState::toFront);
+			if (!areaSelected.isEmpty())
+				areaSelected.figures().forEach(canvasState::toFront);
 			redrawCanvas();
 		});
 
 		toBackButton.setOnAction(click -> {
-			if (!selectedFigures.isEmpty())
-				selectedFigures.forEach(canvasState::toBack);
+			if (!areaSelected.isEmpty())
+				areaSelected.figures().forEach(canvasState::toBack);
 			redrawCanvas();
 		});
 
 		eraseButton.setOnAction(click -> {
-			if (!selectedFigures.isEmpty()) {
-				selectedFigures.forEach(canvasState::removeFigure);
-				selectedFigures.clear();
+			if (!areaSelected.isEmpty()) {
+				areaSelected.figures().forEach(canvasState::removeFigure);
+				areaSelected.clear();
 			}
 			redrawCanvas();
 		});
 
 		strokeColorPicker.setOnAction(click -> {
-			if (!selectedFigures.isEmpty()){
-				selectedFigures.forEach(figure -> figure.setStrokeColor(strokeColorPicker.getValue()));
+			if (!areaSelected.isEmpty()){
+				areaSelected.figures().forEach(figure -> figure.setStrokeColor(strokeColorPicker.getValue()));
 			}
 			redrawCanvas();
 		});
 
 		fillColorPicker.setOnAction(click -> {
-			if (!selectedFigures.isEmpty()){
-				selectedFigures.forEach(figure -> figure.setFillColor(fillColorPicker.getValue()));
+			if (!areaSelected.isEmpty()){
+				areaSelected.figures().forEach(figure -> figure.setFillColor(fillColorPicker.getValue()));
 			}
 			redrawCanvas();
 		});
 
 		strokeSlider.setOnMouseDragged(slide -> {
-			if (!selectedFigures.isEmpty()){
-				selectedFigures.forEach(figure -> figure.setStrokeBorder(strokeSlider.getValue()));
+			if (!areaSelected.isEmpty()){
+				areaSelected.figures().forEach(figure -> figure.setStrokeBorder(strokeSlider.getValue()));
 			}
 			redrawCanvas();
 		});
@@ -197,8 +195,8 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-				if(!selectedFigures.isEmpty()){
-					selectedFigures.forEach(figure -> figure.moveFigure(diffX,diffY));
+				if(!areaSelected.isEmpty()){
+					areaSelected.figures().forEach(figure -> figure.moveFigure(diffX,diffY));
 				}
 				redrawCanvas();
 			}
@@ -211,7 +209,7 @@ public class PaintPane extends BorderPane {
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.figures()) {
-			if(selectedFigures.contains(figure)) {
+			if(areaSelected.contains(figure)) {
 				gc.setStroke(Color.RED);
 			} else {
 				gc.setStroke(figure.getStrokeColor());
@@ -239,9 +237,9 @@ public class PaintPane extends BorderPane {
 	}
 
 	private void multipleSelection() {
-		if (!selectedFigures.isEmpty()) {
+		if (!areaSelected.isEmpty()) {
 			StringBuilder label = new StringBuilder("Se seleccionó: ");
-			for (Figure selected : selectedFigures) {
+			for (Figure selected : areaSelected.figures()) {
 				label.append(selected.toString());
 			}
 			statusPane.updateStatus(label.toString());
@@ -250,35 +248,8 @@ public class PaintPane extends BorderPane {
 		}
 	}
 
-	private void areaSelection() {
-		for (Figure figure : canvasState.figures()) {
-			if (selectionArea.belongs(figure.getStartPoint()) && selectionArea.belongs(figure.getEndPoint())) {
-				selectedFigures.add(figure);
-			}
-		}
-	}
-
-	private void pointSelection(Point eventPoint) {
-		if (!selectedFigures.isEmpty()) {
-			clearSelection();
-		}
-		boolean found = false;
-		Figure selected = null;
-		for (Figure figure : canvasState.figures()) {
-			if(figure.belongs(eventPoint)) {
-				found = true;
-				selected = figure;
-			}
-		}
-		if (found) {
-			selectedFigures.add(selected);
-		} else {
-			selectedFigures.clear();
-		}
-	}
-
 	private void clearSelection() {
-		selectedFigures.clear();
+		areaSelected.clear();
 		redrawCanvas();
 	}
 
