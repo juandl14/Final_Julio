@@ -201,7 +201,6 @@ public class PaintPane extends BorderPane {
 				redrawCanvas();
 			}
 		});
-
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
@@ -216,22 +215,32 @@ public class PaintPane extends BorderPane {
 			}
 			gc.setFill(figure.getFillColor());
 			gc.setLineWidth(figure.getStrokeBorder());
+
+
 			if (figure instanceof Rectangle) {
-				Rectangle rectangle = (Rectangle) figure;
-				gc.fillRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),
-						rectangle.getWidth(), rectangle.getHeight());
-				gc.strokeRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),
-						rectangle.getWidth(), rectangle.getHeight());
+				figure.toDraw( (x1, y1, x2, y2) -> gc.fillRect(x1, y1, x2, y2) );
+				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeRect(x1, y1, x2, y2) );
+
+//				Rectangle rectangle = (Rectangle) figure;
+//				gc.fillRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),
+//						rectangle.getWidth(), rectangle.getHeight());
+//				gc.strokeRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),
+//						rectangle.getWidth(), rectangle.getHeight());
 			}else if(figure instanceof Ellipse) {
-				Ellipse ellipse = (Ellipse) figure;
-				gc.fillOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
-						ellipse.getxAxis(), ellipse.getyAxis());
-				gc.strokeOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
-						ellipse.getxAxis(), ellipse.getyAxis());
+				figure.toDraw( (x1, y1, x2, y2) -> gc.fillOval(x1, y1, x2, y2) );
+				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeOval(x1, y1, x2, y2) );
+
+//				Ellipse ellipse = (Ellipse) figure;
+//				gc.fillOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
+//						ellipse.getxAxis(), ellipse.getyAxis());
+//				gc.strokeOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
+//						ellipse.getxAxis(), ellipse.getyAxis());
 			}else if (figure instanceof Line){
-				Line line =  (Line) figure ;
-				gc.strokeLine(line.getStartPoint().getX(), line.getStartPoint().getY(),
-						line.getEndPoint().getX(), line.getEndPoint().getY());
+				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeLine(x1, y1, x2, y2) );
+
+//				Line line =  (Line) figure ;
+//				gc.strokeLine(line.getStartPoint().getX(), line.getStartPoint().getY(),
+//						line.getEndPoint().getX(), line.getEndPoint().getY());
 			}
 		}
 	}

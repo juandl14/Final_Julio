@@ -23,6 +23,11 @@ public class Rectangle extends Figure {
     }
 
     @Override
+    public void toDraw(Drawable d) {
+        d.apply( getStartPoint().getX(), getStartPoint().getY(), getWidth(), getHeight() );
+    }
+
+    @Override
     public String toString() {
         return String.format("Rectángulo [ %s , %s ]", getStartPoint(), getEndPoint());
     }

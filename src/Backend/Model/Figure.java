@@ -54,4 +54,6 @@ public abstract class Figure {
 
     public abstract boolean belongs(Point eventPoint);
 
+    public abstract void toDraw(Drawable d);
+
 }

@@ -24,6 +24,11 @@ public class Ellipse extends Figure {
     }
 
     @Override
+    public void toDraw(Drawable d) {
+        d.apply(getStartPoint().getX(), getStartPoint().getY(), getxAxis(), getyAxis());
+    }
+
+    @Override
     public String toString() {
         return String.format("Elipse [Centro: %s, RadioX: %.2f, RadioY: %.2f]", getCenterPoint(), getxAxis() / 2, getyAxis() / 2);
     }
