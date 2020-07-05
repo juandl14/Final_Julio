@@ -10,11 +10,11 @@ public class Ellipse extends Figure {
         return new Point(getStartPoint().getX()+(getxAxis()/2), getStartPoint().getY()+(getyAxis()/2) );
     }
 
-    public double getxAxis() {
+    protected double getxAxis() {
         return getEndPoint().getX() - getStartPoint().getX();
     }
 
-    public double getyAxis() {
+    private double getyAxis() {
         return getEndPoint().getY() - getStartPoint().getY();
     }
 

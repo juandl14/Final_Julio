@@ -6,11 +6,11 @@ public class Rectangle extends Figure {
         super(startPoint, endPoint);
     }
 
-    public double getWidth() {
+    private double getWidth() {
         return Math.abs(getStartPoint().getX() - getEndPoint().getX());
     }
 
-    public double getHeight() {
+    private double getHeight() {
         return Math.abs(getStartPoint().getY() - getEndPoint().getY());
     }
 

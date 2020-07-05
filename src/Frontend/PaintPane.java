@@ -82,17 +82,24 @@ public class PaintPane extends BorderPane {
 			if (startPoint == null) {
 				return;
 			}
-
 			if (selectionButton.isSelected()) {
-				if (!startPoint.equals(endPoint)) {
+				if (!startPoint.equals(endPoint) && areaSelected.isEmpty()) {
 					areaSelected = new AreaSelected(new Rectangle(startPoint, endPoint), canvasState.figures());
-				} else {
-//					if (!areaSelected.isEmpty()) {
-						clearSelection();
-//					}
+				} else if (startPoint.equals(endPoint)) {
 					areaSelected =  new AreaSelected(new Point(startPoint.getX(), startPoint.getY()), canvasState.figures());
 				}
 				multipleSelection();
+//			if (selectionButton.isSelected()) {
+//				if (!startPoint.equals(endPoint)) {
+//					areaSelected = new AreaSelected(new Rectangle(startPoint, endPoint), canvasState.figures());
+//				} else {
+//					if (!areaSelected.isEmpty()) {
+//						clearSelection();
+//					}
+//					areaSelected =  new AreaSelected(new Point(startPoint.getX(), startPoint.getY()), canvasState.figures());
+//				}
+//				multipleSelection();
+
 			} else {
 				Figure newFigure;
 				if (lineButton.isSelected()) {
@@ -115,7 +122,6 @@ public class PaintPane extends BorderPane {
 				newFigure.setFillColor(fillColorPicker.getValue());
 				canvasState.addFigure(newFigure);
 			}
-
 			startPoint = null;
 			redrawCanvas();
 		});
@@ -193,13 +199,20 @@ public class PaintPane extends BorderPane {
 		canvas.setOnMouseDragged(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
-				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
-				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
 				if(!areaSelected.isEmpty()){
-					areaSelected.figures().forEach(figure -> figure.moveFigure(diffX,diffY));
+					areaSelected.figures().forEach(figure -> figure.moveFigure(startPoint, eventPoint));
 				}
 				redrawCanvas();
 			}
+//			if(selectionButton.isSelected()) {
+//				Point eventPoint = new Point(event.getX(), event.getY());
+//				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
+//				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
+//				if(!areaSelected.isEmpty()){
+//					areaSelected.figures().forEach(figure -> figure.moveFigure(diffX,diffY));
+//				}
+//				redrawCanvas();
+//			}
 		});
 		setLeft(buttonsBox);
 		setRight(canvas);
@@ -215,7 +228,6 @@ public class PaintPane extends BorderPane {
 			}
 			gc.setFill(figure.getFillColor());
 			gc.setLineWidth(figure.getStrokeBorder());
-
 
 			if (figure instanceof Rectangle) {
 				figure.toDraw( (x1, y1, x2, y2) -> gc.fillRect(x1, y1, x2, y2) );
