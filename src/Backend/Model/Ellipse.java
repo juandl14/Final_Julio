@@ -7,30 +7,17 @@ public class Ellipse extends Figure {
     }
 
     protected Point getCenterPoint(){
-        return new Point(getStartPoint().getX()+(getxAxis()/2), getStartPoint().getY()+(getyAxis()/2) );
-    }
-
-    protected double getxAxis() {
-        return getEndPoint().getX() - getStartPoint().getX();
-    }
-
-    private double getyAxis() {
-        return getEndPoint().getY() - getStartPoint().getY();
+        return new Point(getStartPoint().getX()+(getWidth()/2), getStartPoint().getY()+(getHeight()/2) );
     }
 
     @Override
     public boolean belongs(Point eventPoint) {
-        return Math.pow((eventPoint.getX() - getCenterPoint().getX())/(getxAxis()/2), 2) + Math.pow((eventPoint.getY() - getCenterPoint().getY())/(getyAxis()/2), 2) <= 1;
-    }
-
-    @Override
-    public void toDraw(Drawable d) {
-        d.apply(getStartPoint().getX(), getStartPoint().getY(), getxAxis(), getyAxis());
+        return Math.pow((eventPoint.getX() - getCenterPoint().getX())/(getWidth()/2), 2) + Math.pow((eventPoint.getY() - getCenterPoint().getY())/(getHeight()/2), 2) <= 1;
     }
 
     @Override
     public String toString() {
-        return String.format("Elipse [Centro: %s, RadioX: %.2f, RadioY: %.2f]", getCenterPoint(), getxAxis() / 2, getyAxis() / 2);
+        return String.format("Elipse [Centro: %s, RadioX: %.2f, RadioY: %.2f]", getCenterPoint(), getWidth()/2, getHeight()/2);
     }
 
 }

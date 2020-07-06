@@ -6,25 +6,12 @@ public class Rectangle extends Figure {
         super(startPoint, endPoint);
     }
 
-    private double getWidth() {
-        return Math.abs(getStartPoint().getX() - getEndPoint().getX());
-    }
-
-    private double getHeight() {
-        return Math.abs(getStartPoint().getY() - getEndPoint().getY());
-    }
-
     @Override
     public boolean belongs(Point eventPoint) {
         return eventPoint.getX() > getStartPoint().getX() &&
                 eventPoint.getX() < getEndPoint().getX() &&
                 eventPoint.getY() > getStartPoint().getY() &&
                 eventPoint.getY() < getEndPoint().getY();
-    }
-
-    @Override
-    public void toDraw(Drawable d) {
-        d.apply( getStartPoint().getX(), getStartPoint().getY(), getWidth(), getHeight() );
     }
 
     @Override

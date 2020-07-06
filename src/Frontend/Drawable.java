@@ -1,4 +1,4 @@
-package Backend.Model;
+package Frontend;
 
 @FunctionalInterface
 public interface Drawable {

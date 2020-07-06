@@ -18,6 +18,18 @@ public abstract class Figure {
         this.endPoint = endPoint;
     }
 
+    public double getWidth() {
+        return Math.abs(getStartPoint().getX() - getEndPoint().getX());
+    }
+
+    public double getHeight() {
+        return Math.abs(getStartPoint().getY() - getEndPoint().getY());
+    }
+
+//    public void toDraw(Drawable d) {
+//        d.apply( getStartPoint().getX(), getStartPoint().getY(), getWidth(), getHeight() );
+//    }
+
     public void moveFigure(Point startPoint, Point evenPoint) {
         if(firstPoint != startPoint){
             firstPoint = startPoint;
@@ -74,7 +86,5 @@ public abstract class Figure {
     }
 
     public abstract boolean belongs(Point eventPoint);
-
-    public abstract void toDraw(Drawable d);
 
 }
