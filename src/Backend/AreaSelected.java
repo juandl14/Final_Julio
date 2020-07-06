@@ -13,7 +13,7 @@ public class AreaSelected {
 
     public AreaSelected(Rectangle areaSelected, Iterable<Figure> figureList) {
         for (Figure figure : figureList) {
-            if (areaSelected.belongs(figure.getStartPoint()) && areaSelected.belongs(figure.getEndPoint())) {
+            if (areaSelected.containsPoint(figure.getStartPoint()) && areaSelected.containsPoint(figure.getEndPoint())) {
                 selectedFigures.add(figure);
             }
         }
@@ -23,7 +23,7 @@ public class AreaSelected {
         boolean found = false;
         Figure selected = null;
         for (Figure figure : figureList) {
-            if(figure.belongs(eventPoint)) {
+            if(figure.containsPoint(eventPoint)) {
                 found = true;
                 selected = figure;
             }

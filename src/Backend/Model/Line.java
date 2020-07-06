@@ -6,14 +6,12 @@ public class Line extends Figure {
         super(startPoint, endPoint);
     }
 
+    // Restorna siempre falso porque la linea no se puede seleccionar con un click
     @Override
-    public boolean belongs(Point point) {
+    public boolean containsPoint(Point point) {
         return false;
     }
-//    @Override
-//    public void toDraw(Drawable d) {
-//        d.apply( getStartPoint().getX(), getStartPoint().getY(), getEndPoint().getX(), getEndPoint().getY() );
-//    }
+
     @Override
     public String toString() {
         return String.format("Linea [ %s , %s ]", getStartPoint(), getEndPoint());

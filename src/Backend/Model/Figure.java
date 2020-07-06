@@ -5,19 +5,21 @@ import javafx.scene.paint.Color;
 public abstract class Figure {
 
     private final Point startPoint, endPoint;
-    //
+
+    // Diseño
     private Color strokeColor, fillColor;
     private double strokeBorder;
-    //movimiento de figuras
+
+    // Movimiento de figuras
     private Point firstPoint;
     private Point previousEvenPoint;
-
 
     public Figure(Point startPoint, Point endPoint) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
     }
 
+    // Ancho y alto
     public double getDiffX() {
         return getEndPoint().getX() - getStartPoint().getX();
     }
@@ -25,17 +27,7 @@ public abstract class Figure {
     public double getDiffY() {
         return getEndPoint().getY() - getStartPoint().getY();
     }
-//    public double getWidth() {
-//        return Math.abs(getStartPoint().getX() - getEndPoint().getX());
-//    }
-//
-//    public double getHeight() {
-//        return Math.abs(getStartPoint().getY() - getEndPoint().getY());
-//    }
-//*---------------------------------------------------------------------------------------------
-//    public void toDraw(Drawable d) {
-//        d.apply( getStartPoint().getX(), getStartPoint().getY(), getWidth(), getHeight() );
-//    }
+
     public void moveFigure(Point startPoint, Point evenPoint) {
         if(firstPoint != startPoint){
             firstPoint = startPoint;
@@ -51,12 +43,7 @@ public abstract class Figure {
         }
         previousEvenPoint = evenPoint;
     }
-//    public void moveFigure(double diffX, double diffY) {
-//        startPoint.plusX(diffX);
-//        startPoint.plusY(diffY);
-//        endPoint.plusX(diffX);
-//        endPoint.plusY(diffY);
-//    }
+
     public Color getStrokeColor() {
         return strokeColor;
     }
@@ -89,6 +76,6 @@ public abstract class Figure {
         return endPoint;
     }
 
-    public abstract boolean belongs(Point eventPoint);
+    public abstract boolean containsPoint(Point eventPoint);
 
 }

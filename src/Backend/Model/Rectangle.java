@@ -7,7 +7,7 @@ public class Rectangle extends Figure {
     }
 
     @Override
-    public boolean belongs(Point eventPoint) {
+    public boolean containsPoint(Point eventPoint) {
         return eventPoint.getX() > getStartPoint().getX() &&
                 eventPoint.getX() < getEndPoint().getX() &&
                 eventPoint.getY() > getStartPoint().getY() &&

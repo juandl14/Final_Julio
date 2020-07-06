@@ -11,7 +11,7 @@ public class Ellipse extends Figure {
     }
 
     @Override
-    public boolean belongs(Point eventPoint) {
+    public boolean containsPoint(Point eventPoint) {
         return Math.pow((eventPoint.getX() - getCenterPoint().getX())/(getDiffX()/2), 2) + Math.pow((eventPoint.getY() - getCenterPoint().getY())/(getDiffY()/2), 2) <= 1;
     }
 

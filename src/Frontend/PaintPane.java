@@ -2,6 +2,7 @@ package Frontend;
 
 import Backend.AreaSelected;
 import Backend.CanvasState;
+import Backend.Drawable;
 import Backend.Model.*;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
@@ -82,23 +83,14 @@ public class PaintPane extends BorderPane {
 			if (startPoint == null) {
 				return;
 			}
+
 			if (selectionButton.isSelected()) {
 				if (!startPoint.equals(endPoint) && areaSelected.isEmpty()) {
 					areaSelected = new AreaSelected(new Rectangle(startPoint, endPoint), canvasState.figures());
 				} else if (startPoint.equals(endPoint)) {
 					areaSelected =  new AreaSelected(new Point(startPoint.getX(), startPoint.getY()), canvasState.figures());
 				}
-				multipleSelection();
-//			if (selectionButton.isSelected()) {
-//				if (!startPoint.equals(endPoint)) {
-//					areaSelected = new AreaSelected(new Rectangle(startPoint, endPoint), canvasState.figures());
-//				} else {
-//					if (!areaSelected.isEmpty()) {
-//						clearSelection();
-//					}
-//					areaSelected =  new AreaSelected(new Point(startPoint.getX(), startPoint.getY()), canvasState.figures());
-//				}
-//				multipleSelection();
+				selectionLabel();
 			} else {
 				Figure newFigure;
 				if (lineButton.isSelected()) {
@@ -121,20 +113,24 @@ public class PaintPane extends BorderPane {
 				newFigure.setFillColor(fillColorPicker.getValue());
 				canvasState.addFigure(newFigure);
 			}
+
 			startPoint = null;
 			redrawCanvas();
+
 		});
 
 		canvas.setOnMouseMoved(event -> {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
+
 			for(Figure figure : canvasState.figures()) {
-				if(figure.belongs(eventPoint)) {
+				if(figure.containsPoint(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
 				}
 			}
+
 			if(found) {
 				statusPane.updateStatus(label.toString());
 			} else {
@@ -142,6 +138,7 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
+		// Se deseleccionan las figuras si te presiona un boton para crear una nueva figura y el boton de selecion
 		selectionButton.setOnAction(click -> clearSelection());
 
 		rectangleButton.setOnAction(click -> clearSelection());
@@ -203,68 +200,38 @@ public class PaintPane extends BorderPane {
 				}
 				redrawCanvas();
 			}
-//			if(selectionButton.isSelected()) {
-//				Point eventPoint = new Point(event.getX(), event.getY());
-//				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
-//				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-//				if(!areaSelected.isEmpty()){
-//					areaSelected.figures().forEach(figure -> figure.moveFigure(diffX,diffY));
-//				}
-//				redrawCanvas();
-//			}
 		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
 		for(Figure figure : canvasState.figures()) {
 			if(areaSelected.contains(figure)) {
 				gc.setStroke(Color.RED);
 			} else {
 				gc.setStroke(figure.getStrokeColor());
 			}
+
 			gc.setFill(figure.getFillColor());
 			gc.setLineWidth(figure.getStrokeBorder());
 
 			if (figure instanceof Rectangle) {
-				toDraw(figure, (x1, y1, x2, y2) -> gc.fillRect(x1, y1, x2, y2) );
-				toDraw(figure, (x1, y1, x2, y2) -> gc.strokeRect(x1, y1, x2, y2) );
-//				figure.toDraw( (x1, y1, x2, y2) -> gc.fillRect(x1, y1, x2, y2) );
-//				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeRect(x1, y1, x2, y2) );
-//---------------------------------------------------------------------------------------------------------
-//				Rectangle rectangle = (Rectangle) figure;
-//				gc.fillRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),
-//						rectangle.getWidth(), rectangle.getHeight());
-//				gc.strokeRect(rectangle.getStartPoint().getX(), rectangle.getStartPoint().getY(),
-//						rectangle.getWidth(), rectangle.getHeight());
-			}else if(figure instanceof Ellipse) {
-				toDraw(figure, (x1, y1, x2, y2) -> gc.fillOval(x1, y1, x2, y2) );
-				toDraw(figure, (x1, y1, x2, y2) -> gc.strokeOval(x1, y1, x2, y2) );
-//				figure.toDraw( (x1, y1, x2, y2) -> gc.fillOval(x1, y1, x2, y2) );
-//				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeOval(x1, y1, x2, y2) );
-//---------------------------------------------------------------------------------------------------------
-//				Ellipse ellipse = (Ellipse) figure;
-//				gc.fillOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
-//						ellipse.getxAxis(), ellipse.getyAxis());
-//				gc.strokeOval(ellipse.getStartPoint().getX(), ellipse.getStartPoint().getY(),
-//						ellipse.getxAxis(), ellipse.getyAxis());
-			}else if (figure instanceof Line){
-				toDraw(figure, (x1, y1, x2, y2) -> gc.strokeLine(x1, y1, x2+x1, y2+y1) );
-//				gc.strokeLine(figure.getStartPoint().getX(), figure.getStartPoint().getY(),
-//						figure.getEndPoint().getX(), figure.getEndPoint().getY());
-//--------------------------------------------------------------------------------------------------------
-//				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeLine(x1, y1, x2, y2) );
-//---------------------------------------------------------------------------------------------------------
-//				Line line =  (Line) figure ;
-//				gc.strokeLine(line.getStartPoint().getX(), line.getStartPoint().getY(),
-//						line.getEndPoint().getX(), line.getEndPoint().getY());
+				toDraw(figure, (x, y, w, h) -> gc.fillRect(x, y, w, h));
+				toDraw(figure, (x, y, w, h) -> gc.strokeRect(x, y, w, h));
+			} else if(figure instanceof Ellipse) {
+				toDraw(figure, (x, y, w, h) -> gc.fillOval(x, y, w, h));
+				toDraw(figure, (x, y, w, h) -> gc.strokeOval(x, y, w, h));
+			} else if (figure instanceof Line){
+				toDraw(figure, (x1, y1, x2, y2) -> gc.strokeLine(x1, y1, x2+x1, y2+y1));
 			}
 		}
 	}
 
-	private void multipleSelection() {
+	private void selectionLabel() {
 		if (!areaSelected.isEmpty()) {
 			StringBuilder label = new StringBuilder("Se seleccionó: ");
 			for (Figure selected : areaSelected.figures()) {
@@ -282,6 +249,7 @@ public class PaintPane extends BorderPane {
 	}
 
 	public void toDraw(Figure figure, Drawable d){
-		d.apply(figure.getStartPoint().getX(), figure.getStartPoint().getY(), figure.getDiffX(), figure.getDiffY() );
+		d.apply(figure.getStartPoint().getX(), figure.getStartPoint().getY(), figure.getDiffX(), figure.getDiffY());
 	}
+
 }
