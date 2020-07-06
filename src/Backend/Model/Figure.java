@@ -18,18 +18,24 @@ public abstract class Figure {
         this.endPoint = endPoint;
     }
 
-    public double getWidth() {
-        return Math.abs(getStartPoint().getX() - getEndPoint().getX());
+    public double getDiffX() {
+        return getEndPoint().getX() - getStartPoint().getX();
     }
 
-    public double getHeight() {
-        return Math.abs(getStartPoint().getY() - getEndPoint().getY());
+    public double getDiffY() {
+        return getEndPoint().getY() - getStartPoint().getY();
     }
-
+//    public double getWidth() {
+//        return Math.abs(getStartPoint().getX() - getEndPoint().getX());
+//    }
+//
+//    public double getHeight() {
+//        return Math.abs(getStartPoint().getY() - getEndPoint().getY());
+//    }
+//*---------------------------------------------------------------------------------------------
 //    public void toDraw(Drawable d) {
 //        d.apply( getStartPoint().getX(), getStartPoint().getY(), getWidth(), getHeight() );
 //    }
-
     public void moveFigure(Point startPoint, Point evenPoint) {
         if(firstPoint != startPoint){
             firstPoint = startPoint;
@@ -45,14 +51,12 @@ public abstract class Figure {
         }
         previousEvenPoint = evenPoint;
     }
-
 //    public void moveFigure(double diffX, double diffY) {
 //        startPoint.plusX(diffX);
 //        startPoint.plusY(diffY);
 //        endPoint.plusX(diffX);
 //        endPoint.plusY(diffY);
 //    }
-
     public Color getStrokeColor() {
         return strokeColor;
     }
