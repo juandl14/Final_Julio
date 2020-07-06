@@ -255,13 +255,14 @@ public class PaintPane extends BorderPane {
 //						ellipse.getxAxis(), ellipse.getyAxis());
 			}else if (figure instanceof Line){
 
-//				toDraw(figure,(x1, y1, x2, y2) -> gc.strokeLine(x1, y1, x2, y2) );
-//---------------------------------------------------------------------------------------------------------
-//				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeLine(x1, y1, x2, y2) );
+				gc.strokeLine(figure.getStartPoint().getX(), figure.getStartPoint().getY(),
+						figure.getEndPoint().getX(), figure.getEndPoint().getY());
 
-				Line line =  (Line) figure ;
-				gc.strokeLine(line.getStartPoint().getX(), line.getStartPoint().getY(),
-						line.getEndPoint().getX(), line.getEndPoint().getY());
+//				figure.toDraw( (x1, y1, x2, y2) -> gc.strokeLine(x1, y1, x2, y2) );
+//---------------------------------------------------------------------------------------------------------
+//				Line line =  (Line) figure ;
+//				gc.strokeLine(line.getStartPoint().getX(), line.getStartPoint().getY(),
+//						line.getEndPoint().getX(), line.getEndPoint().getY());
 			}
 		}
 	}
@@ -286,6 +287,5 @@ public class PaintPane extends BorderPane {
 	public void toDraw(Figure figure, Drawable d){
 		d.apply(figure.getStartPoint().getX(), figure.getStartPoint().getY(), figure.getWidth(),figure.getHeight() );
 	}
-
 
 }
