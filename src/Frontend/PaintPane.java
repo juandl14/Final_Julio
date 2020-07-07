@@ -85,9 +85,9 @@ public class PaintPane extends BorderPane {
 			}
 
 			if (selectionButton.isSelected()) {
-				if (!startPoint.equals(endPoint) && areaSelected.isEmpty()) {
+				if (!event.isStillSincePress() && areaSelected.isEmpty()) {
 					areaSelected = new AreaSelected(new Rectangle(startPoint, endPoint), canvasState.figures());
-				} else if (startPoint.equals(endPoint)) {
+				} else if (event.isStillSincePress()) {
 					areaSelected =  new AreaSelected(new Point(startPoint.getX(), startPoint.getY()), canvasState.figures());
 				}
 				selectionLabel();
@@ -120,22 +120,24 @@ public class PaintPane extends BorderPane {
 		});
 
 		canvas.setOnMouseMoved(event -> {
-			Point eventPoint = new Point(event.getX(), event.getY());
-			boolean found = false;
-			StringBuilder label = new StringBuilder();
+		    if (areaSelected.isEmpty()) {
+                Point eventPoint = new Point(event.getX(), event.getY());
+                boolean found = false;
+                StringBuilder label = new StringBuilder();
 
-			for(Figure figure : canvasState.figures()) {
-				if(figure.containsPoint(eventPoint)) {
-					found = true;
-					label.append(figure.toString());
-				}
-			}
+                for (Figure figure : canvasState.figures()) {
+                    if (figure.containsPoint(eventPoint)) {
+                        found = true;
+                        label.append(figure.toString());
+                    }
+                }
 
-			if(found) {
-				statusPane.updateStatus(label.toString());
-			} else {
-				statusPane.updateStatus(eventPoint.toString());
-			}
+                if (found) {
+                    statusPane.updateStatus(label.toString());
+                } else {
+                    statusPane.updateStatus(eventPoint.toString());
+                }
+            }
 		});
 
 		// Se deseleccionan las figuras si te presiona un boton para crear una nueva figura y el boton de selecion
